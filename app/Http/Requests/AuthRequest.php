@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PastesRequest extends FormRequest
+class AuthRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class PastesRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:2|max:100',
-            'expiration' => 'required',
-            'access' => 'required',
-            'message' => 'required|min:15',
-            'lang' => 'required',
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'email_repeat' => 'required|email',
+            'password' => 'required|min:8'
         ];
     }
 }
