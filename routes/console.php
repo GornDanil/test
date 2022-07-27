@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+Artisan::command("debug", function() {
+    dd(route('user.login.store'));
+});
+
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');

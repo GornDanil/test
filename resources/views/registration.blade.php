@@ -4,7 +4,7 @@
 
 @section('content')
    <h1>Регистрация</h1>
-   <form class="col-3 offset-4 border rounded" method="POST" action="{{ route('user.registration')}}">
+   <form class="col-3 offset-4 border rounded" method="POST" action="{{ route('user.registration.store')}}">
     @csrf
     <div class="form-group">
         <label for="name" class="col-form-label-lg">Ваше Имя</label>
