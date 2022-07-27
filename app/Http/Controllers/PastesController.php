@@ -2,67 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\PastesRequest;
 use App\Models\Paste;
-use Auth;
-use Carbon\Carbon;
+use App\Services\Pasted\Abstracts\PastedServiceInterface;
+use Illuminate\Support\Facades\Auth;
+
 class PastesController extends Controller
 {
-   public function submit(PastesRequest $req) {
-    $paste = new Paste();
-    $paste->title = $req->input('title');
-    $paste->message = $req->input('message');
-    $paste->expiration = $req->input('expiration');
-    $paste->access = $req->input('access');
-    $paste->lang = $req->input('lang');
-    if(Auth::check()) {
-      $paste->user = Auth::user()->email;
-   
-  } else {
-      $paste->user = $req->input('user');
-  }
+    private PastedServiceInterface $service;
 
-    $paste->save();
+    public function __construct(PastedServiceInterface $service)
+    {
+        $this->service = $service;
+    }
 
-    return redirect()->route('home')->with('success', 'Сообщение было добавлено');
-   }
-   public function allData() {
-      //Paste::where('created_at', '<=', Carbon::now()->subMinutes(10)->toDateTimeString())->delete();
-      $paste = Paste::where('access', '=', 1)->paginate(10);
-      if(Auth::check()) {
-         $private = Paste::where('user', '=', Auth::user()->email)->paginate(10);
-         return view('messages', [
-            'data' => $paste,
-            'private' => $private
-         ]);
-      } else {
-         return view('messages', ['data' => $paste]);
-      }
-      
-      
-      
-  }
-  public function homeData() {
-   $paste = Paste::where('access', '=', 1)->orderBy('created_at','desc')->paginate(10);
-   if(Auth::check()) {
-      $private = Paste::where('user', '=', Auth::user()->email)->paginate(10);
-      return view('messages', [
-         'data' => $paste,
-         'private' => $private
-      ]);
-   } else {
-      return view('messages', ['data' => $paste]);
-   }
-}
-  public function privateData() {
+    public function submit(PastesRequest $req)
+    {
+        $this->service->savePast($req);
 
-   $paste = Paste::where('user', '=', Auth::user()->email)->paginate(10);
-   return view('private', ['data' => $paste]);
+        return redirect()->route('home')->with('success', 'Сообщение было добавлено');
+    }
 
-}
-   public function showOneMessage($id) {
-      $paste = new Paste;
-      return view('one-message', ['data' => $paste->find($id)]);
-   }  
+    public function allData()
+    {
+        $user = Auth::check();
+        $this->service->allPasteData($user);
+        if ($user) {
+            return view('messages', [
+                'data' => $this->service->allPasteData($user)[0],
+                'private' => $this->service->allPasteData($user)[1],
+
+            ]);
+        } else {
+            return view('messages', [
+                'data' => $this->service->allPasteData($user),
+            ]);
+        }
+
+    }
+
+    public function homeData()
+    {
+
+        $user = Auth::check();
+        if ($user) {
+            return view('messages', [
+                'data' => $this->service->homePageData($user)[0],
+                'private' => $this->service->homePageData($user)[1],
+
+            ]);
+        } else {
+            return view('messages', [
+                'data' => $this->service->homePageData($user),
+            ]);
+        }
+    }
+
+    public function privateData()
+    {
+        return view('private', ['data' => $this->service->privatePageData()]);
+    }
+
+    public function showOneMessage($id)
+    {
+        $paste = new Paste;
+        return view('one-message', ['data' => $paste->find($id)]);
+    }
 }

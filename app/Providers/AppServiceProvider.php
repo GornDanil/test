@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,9 +12,16 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected array $mappings = [
+        \App\Services\Authentication\Abstracts\AuthenticationServiceInterface::class => \App\Services\Authentication\AuthenticationService::class,
+        \App\Services\Pasted\Abstracts\PastedServiceInterface::class => \App\Services\Pasted\PastedService::class,
+    ];
+
     public function register()
     {
-        //
+        foreach ($this->mappings as $abstract => $concrete) {
+            $this->app->singleton($abstract, $concrete);
+        }
     }
 
     /**

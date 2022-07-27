@@ -4,22 +4,22 @@
 
 @section('content')
     @if($data->count() >0)
-    <h1>Все Пасты</h1> 
+    <h1>Все Пасты</h1>
     @else
     <h1>Ни одной Пасты еще не загружено</h1>
     @endif
    @foreach($data as $el)
     <div class="alert alert-info">
         <h3>{{ $el->title }}</h3>
-        
+
         <script>
         </script>
-        
+
         <p><small>{{ $el->created_at }}</small></p>
         <a href="{{ route('contact-data-one', $el->id)}}"><button type="submit" name="button" id="" class="btn btn-warning">Детальнее</button></a>
     </div>
-    
-    
+
+
    @endforeach
    @if($data->onFirstPage() != true)
    <a href="{{$data->previousPageUrl()}}"><button type="submit" name="button" id="" class="btn btn-info">предыдущая страница</button></a>
@@ -34,10 +34,10 @@
    @foreach($private as $el)
     <div class="alert alert-info">
         <h3>{{ $el->title }}</h3>
-        
+
         <script>
         </script>
-        
+
         <p><small>{{ $el->created_at }}</small></p>
         <a href="{{ route('contact-data-one', $el->id)}}"><button type="submit" name="button" id="" class="btn btn-warning">Детальнее</button></a>
     </div>
@@ -47,4 +47,4 @@
    @endif
    @endif
 @endsection
- 
+

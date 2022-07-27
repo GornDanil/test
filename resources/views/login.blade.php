@@ -3,9 +3,9 @@
 @section('title-block') Авторизация @endsection
 
 @section('content')
-   <h1>Вход</h1> 
-   <form class="col-3 offset-4 border rounded" method="POST" action="{{ route('user.login')}}">
-    @csrf 
+   <h1>Вход</h1>
+   <form class="col-3 offset-4 border rounded" method="POST" action="{{ route('user.login.store')}}">
+    @csrf
     <div class="form-group">
         <label for="email" class="col-form-label-lg">Ваш email</label>
         <input type="text" class="form-control" id="email" name="email" value="" placeholder="Email">

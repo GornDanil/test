@@ -2,23 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Route;
+
 class LoginController extends Controller
 {
-    public function login(Request $request) {
-        if(Auth::check()) {
+    private AuthenticationServiceInterface $service;
+
+    public function __construct(AuthenticationServiceInterface $service)
+    {
+        $this->service = $service;
+    }
+
+    public function viewLogin()
+    {
+        return view("login");
+    }
+
+    public function login(Request $request)
+    {
+        $user = Auth::check();
+        if ($user) {
             return redirect()->intended(route('user.private'));
         }
-        $formFields = $request->only(['email', 'password']);
 
-        if(Auth::attempt($formFields)) {
+        if (Auth::attempt($this->service->login($request))) {
             return redirect()->intended(route('user.private'));
         }
 
-        return redirect(route('user.login'))->withErrors([
+        return redirect(route('user.login.view'))->withErrors([
             'email' => 'Не удалось авторизироваться'
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }
