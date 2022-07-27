@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -24,7 +23,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $user = Auth::check();
-        if ($user) {
+        if (Auth::check()) {
             return redirect()->intended(route('user.private'));
         }
 

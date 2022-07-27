@@ -30,7 +30,7 @@ class PastedService implements PastedServiceInterface
     public function allPasteData($user)
     {
         if ($user) {
-            $paste = [Paste::where('access', '=', 1)->paginate(10), Paste::where('user', '=', Auth::user()->email)->paginate(10)];
+            $paste = [Paste::where('access', '=', 1)->paginate(10), Paste::where('user', '=', Auth::User()->email)->paginate(10)];
 
         } else {
             $paste = Paste::where('access', '=', 1)->paginate(10);

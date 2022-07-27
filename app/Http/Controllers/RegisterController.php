@@ -37,8 +37,8 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function authLog(AuthRequest $request)
+    public function view()
     {
-        dd(1);
+        return view(route('registration'));
     }
 }
