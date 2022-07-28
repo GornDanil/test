@@ -21,12 +21,8 @@ class AuthenticationService implements AuthenticationServiceInterface
      */
     public function registration($request)
     {
-        $user = $this->repository->create($request);
-        if ($user) {
+         $this->repository->create($request);
 
-
-        }
-        return $user;
     }
 
     /**

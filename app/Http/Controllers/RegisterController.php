@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use App\Models\User;
+use App\Repositories\UserRepositoryInterface;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -16,13 +17,14 @@ class RegisterController extends Controller
 {
     /** @var AuthenticationServiceInterface */
     private AuthenticationServiceInterface $service;
-
+    private UserRepositoryInterface $repository;
     /**
      * @param AuthenticationServiceInterface $service
      */
-    public function __construct(AuthenticationServiceInterface $service)
+    public function __construct(AuthenticationServiceInterface $service, UserRepositoryInterface $repository)
     {
         $this->service = $service;
+        $this->repository = $repository;
     }
 
     /**
@@ -35,7 +37,7 @@ class RegisterController extends Controller
             return redirect(route('user.private'));
         }
         $request = $request->validated();
-        if (User::where('email', $request['email'])->exists()) {
+        if ($this->repository->registr($request)) {
             return redirect(route('user.registration.get'))->withErrors([
                 'email' => 'Такой пользователь уже зарегистрирован'
             ]);
