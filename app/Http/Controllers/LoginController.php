@@ -49,10 +49,9 @@ class LoginController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
         return redirect('/');
