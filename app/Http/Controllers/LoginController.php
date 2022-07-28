@@ -38,10 +38,6 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $user = Auth::check();
-        if (Auth::check()) {
-            return redirect()->intended(route('user.private'));
-        }
 
         if (Auth::attempt($this->service->login($request))) {
             return redirect()->intended(route('user.private'));
