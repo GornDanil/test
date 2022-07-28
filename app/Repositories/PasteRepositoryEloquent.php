@@ -25,7 +25,9 @@ class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryI
     {
         return Paste::class;
     }
-    public function modelPast() {
+
+    public function modelPast()
+    {
         return new Paste();
     }
 
