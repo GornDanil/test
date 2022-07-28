@@ -2,15 +2,18 @@
 
 namespace App\Services\Authentication\Abstracts;
 
-use App\Models\User;
-use Illuminate\Support\Collection;
-
 interface AuthenticationServiceInterface
 {
-
+    /**
+     * @param array $request
+     * @return mixed
+     */
     public function registration(array $request);
 
-
+    /**
+     * @param array $request
+     * @return mixed
+     */
     public function login(array $request);
 
 

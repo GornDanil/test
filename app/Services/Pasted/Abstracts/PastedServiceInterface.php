@@ -2,17 +2,35 @@
 
 namespace App\Services\Pasted\Abstracts;
 
+use App\Models\User;
+
 interface PastedServiceInterface
 {
 
-    public function savePast(array $req);
+    /**
+     * @param array $FileRequest
+     * @param User $user
+     * @return mixed
+     */
+    public function savePastAuth(array $FileRequest);
+    public function savePastNoAuth(array $FileRequest);
+    /**
+     * @param bool $user
+     * @return mixed
+     */
+    public function allPasteData(bool $user);
 
+    /**
+     * @param object $user
+     * @return mixed
+     */
+    public function homePageData(bool $user);
 
-    public function allPasteData(string $user);
-
-    public function homePageData(string $user);
-
-    public function privatePageData();
+    /**
+     * @param object $user
+     * @return mixed
+     */
+    public function privatePageData(bool $user);
 
 
 }
