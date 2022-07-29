@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Models\Paste;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
@@ -11,5 +10,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface UserRepositoryInterface extends RepositoryInterface
 {
-    public function registr($request);
+
 }

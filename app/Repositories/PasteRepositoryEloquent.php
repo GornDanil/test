@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Entities\Paste;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Models\Paste;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -17,54 +17,59 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryInterface
 {
     /**
-     * Specify Model class name
-     *
      * @return string
      */
-    public function model()
+    public function model(): string
     {
         return Paste::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function modelPast()
     {
         return new Paste();
     }
 
     /**
-     * @param $filter
-     * @return array|LengthAwarePaginator|void
+     * @inheritDoc
      * @throws RepositoryException
      */
     public function makeFilter($filter)
     {
+        /** Collection<Paste> */
+        /** LengthAwarePaginator<Paste> */
+
+
         /** @var Builder $query */
         $query = $this->makeModel();
         if ($filter == 'allData') {
-            return $query = [$query->where('access', '=', 1)->paginate(10),
-                $query->where('user', '=', Auth::User()->email)->paginate(10)];
+            return [$query->where('access', '=', 1)->paginate(10),
+                $query->where('user', '=', Auth::user()->id)->paginate(10)];
         } elseif ($filter == 'noPrivateData') {
-            return $query = $query->where('access', '=', 1
+            return $query->where('access', '=', 1
             )->paginate(10);
         } elseif ($filter == 'allHome') {
 
-            return $query = [$query->where('access', '=', 1
+            return [$query->where('access', '=', 1
             )->orderBy('created_at', 'desc')->paginate(10),
-                $query->where('user', '=', Auth::User()->email
+                $query->where('user', '=', Auth::user()->id
                 )->orderBy('created_at', 'desc')->paginate(10)];
 
         } elseif ($filter == "homeNoPrivateData") {
 
-            return $query = $query->where('access', '=', 1
+            return $query->where('access', '=', 1
             )->orderBy('created_at', 'desc')->paginate(10);
 
         } elseif ($filter == "privatePageData") {
 
-            return $query = $query->where('user', '=', Auth::User()->email
+            return $query->where('user', '=', Auth::User()->id
             )->orderBy('created_at', 'desc')->paginate(10);
 
         }
 
-
+        return $query->where('access', '=', 1
+        )->orderBy('created_at', 'desc')->paginate(10);
     }
 }

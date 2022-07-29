@@ -3,31 +3,26 @@
 
 namespace App\Services\Pasted;
 
-use App\Entities\Paste;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
-use Illuminate\Support\Facades\Auth;
 
 class PastedService implements PastedServiceInterface
 {
-
+    /**
+     * @var PasteRepositoryInterface
+     */
     private PasteRepositoryInterface $repository;
 
-
+    /**
+     * @param PasteRepositoryInterface $repository
+     */
     public function __construct(PasteRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * save past in bd table pastes
-     * @param $FileRequest
-     *
-     * @return void
-     */
-    /**
-     * @param $FileRequest
-     * @return mixed
+     * @inheritDoc
      */
     public function savePastAuth($FileRequest)
     {
@@ -38,37 +33,14 @@ class PastedService implements PastedServiceInterface
                 'expiration' => $FileRequest['expiration'],
                 'access' => $FileRequest['access'],
                 'lang' => $FileRequest['lang'],
-                'user' => Auth::user()->email,
+                'user' => $FileRequest['user_id'],
             ]);
 
-
-
-
     }
 
+
     /**
-     * @param $FileRequest
-     * @return mixed
-     */
-    public function savePastNoAuth($FileRequest)
-    {
-
-        return $this->repository->create([
-            'title' => $FileRequest['title'],
-            'message' => $FileRequest['message'],
-            'expiration' => $FileRequest['expiration'],
-            'access' => $FileRequest['access'],
-            'lang' => $FileRequest['lang'],
-            'user' => 'undefind',
-        ]);
-
-
-
-    }
-    /**
-     * return all unprivate and listing pasts
-     * @param $user
-     * @return array
+     * @inheritDoc
      */
     public function allPasteData($user)
     {
@@ -82,9 +54,7 @@ class PastedService implements PastedServiceInterface
     }
 
     /**
-     * view page paginate private pasts, unprivate past
-     * @param $user
-     * @return array
+     * @inheritDoc
      */
     public function homePageData($user)
     {
@@ -97,15 +67,10 @@ class PastedService implements PastedServiceInterface
     }
 
     /**
-     * view private pasts
-     * @param $user
-     * @return mixed
+     * @inheritDoc
      */
-    public function privatePageData($user)
+    public function privatePageData()
     {
         return $this->repository->makeFilter('privatePageData');
-
-
-
     }
 }

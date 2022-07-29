@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\EmailNotUniqueException;
+use App\Http\Requests\LoginRequest;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,27 +24,19 @@ class LoginController extends Controller
     }
 
     /**
-     * @return Application|Factory|View
+     * @param LoginRequest $request
+     * @return RedirectResponse
      */
-    public function viewLogin()
+    public function login(LoginRequest $request): RedirectResponse
     {
-        return view("login");
-    }
-
-    /**
-     * @param Request $request
-     * @return Application|RedirectResponse|Redirector
-     */
-    public function login(Request $request)
-    {
-
-        if (Auth::attempt($this->service->login($request))) {
+        $data = $request->validated();
+        $user = $this->service->login($data);
+        if ($user) {
+            Auth::login($user);
             return redirect()->intended(route('user.private'));
+        } else {
+            throw new EmailNotUniqueException();
         }
-
-        return redirect(route('user.login.view'))->withErrors([
-            'email' => 'Не удалось авторизироваться'
-        ]);
     }
 
     /**
@@ -54,6 +45,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect(route('home'));
     }
 }

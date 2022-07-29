@@ -7,7 +7,7 @@
         <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('home') }}">Главная страница</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('paste') }}">Паста</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('contact-data') }}">Хранилище</a>
-        <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('user.private') }}">Аккаунт</a>
+        <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('user.login.view') }}">Аккаунт</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('user.registration.get') }}">Регистрация</a>
         @if(Auth::check())
             <a class="me-3 py-2 text-dark text-decoration-none" href="{{ route('user.logout') }}">Выйти</a>

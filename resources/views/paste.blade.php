@@ -1,23 +1,25 @@
 @extends('layouts.app')
 
-@section('title-block') Публикация @endsection
+@section('title-block')
+    Публикация
+@endsection
 
 @section('content')
 
     <h1>Публикация</h1>
 
-    
+
 
     <form action="{{route('paste-form')}}" method="post">
         @csrf
         @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                <li>{{$errors}}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{$errors}}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
         <div class="form-group">
             <label for="title">Введите заголовок</label>
@@ -25,13 +27,14 @@
         </div>
         <div class="form-group">
             <label for="message">Сообщение</label>
-            <textarea name="message" id="message"  class="form-control d-none" placeholder="Введите сообщение"></textarea>
+            <textarea name="message" id="message" class="form-control d-none"
+                      placeholder="Введите сообщение"></textarea>
         </div>
         <div id="editor"></div>
         <div class="form-group">
             <label for="lang">Язык программирования</label>
             <select name="lang" class="form-control" id="lang">
-            <option value="">язык не выбран</option>
+                <option value="">язык не выбран</option>
                 <option value="html">html</option>
                 <option value="css">css</option>
                 <option value="javascript">javascript</option>
@@ -67,25 +70,27 @@
                 <option value="1">public</option>
                 <option value="2">unlisted</option>
                 <option value="3">private</option>
-                
+
             </select>
         </div>
-        
-        <input type="text" name="user" value="undefind" placeholder="Укажите язык" id="lang" class="form-control d-none">
-            <button type="submit" name="button" id="Update" class="btn btn-success">Отправить</button>
+
+        <input type="text" name="user_id" value="@if(Auth::user()) {{ Auth::User()->id }} @else {{ 'undefind' }} @endif"
+               placeholder="Укажите язык" id="user" class="form-control d-none">
+        <button type="submit" name="button" id="Update" class="btn btn-success">Отправить</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js" type="text/javascript"
+            charset="utf-8"></script>
     <script>
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.setFontSize(17);
         document.querySelector('#lang').onchange = function (evt) {
             $lang = evt.target.value;
-            
-            console.log(editor.getSession().setMode("ace/mode/"+$lang));
+
+            console.log(editor.getSession().setMode("ace/mode/" + $lang));
         };
-        $('#Update').on('click', function() {
+        $('#Update').on('click', function () {
             var code = editor.getValue();
             $('#message').val(code);
         });

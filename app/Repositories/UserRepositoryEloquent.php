@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Entities\User;
-use Illuminate\Database\Query\Builder;
+use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
@@ -18,23 +17,8 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepositoryInt
      *
      * @return string
      */
-    public function model()
+    public function model(): string
     {
         return User::class;
     }
-
-
-    public function registr($request)
-    {
-        /** @var Builder $query */
-        $query = $this->makeModel();
-        return $query = $query->where('email', $request['email'])->exists();
-    }
-
-
-    /**
-     * Boot up the repository, pushing criteria
-     */
-
-
 }

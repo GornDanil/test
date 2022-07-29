@@ -5,16 +5,22 @@ namespace App\Services\Authentication\Abstracts;
 interface AuthenticationServiceInterface
 {
     /**
-     * @param array $request
+     * @param $data
      * @return mixed
      */
-    public function registration(array $request);
+    public function registrationEmailValid($data);
 
     /**
-     * @param array $request
+     * @param array $data
      * @return mixed
      */
-    public function login(array $request);
+    public function registerUser(array $data);
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function login(array $data);
 
 
 }

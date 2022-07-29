@@ -38,4 +38,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function render($request, Throwable $exception)
+    {
+       if(is_subclass_of($exception, BaseException::class)) {
+           $message = $exception->getErrors();
+           return redirect()->back()->withErrors($message);
+       }
+
+        return parent::render($request, $exception);
+    }
 }

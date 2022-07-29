@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Paste extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'message',
+        'expiration',
+        'access',
+        'lang',
+        'user'
+    ];
 }

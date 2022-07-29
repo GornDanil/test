@@ -11,7 +11,7 @@
    @foreach($data as $el)
     <div class="alert alert-info">
         <h3>{{ $el->title }}</h3>
-
+        <h4>{{ $el->user }}</h4>
         <script>
         </script>
 
@@ -34,7 +34,6 @@
    @foreach($private as $el)
     <div class="alert alert-info">
         <h3>{{ $el->title }}</h3>
-
         <script>
         </script>
 

@@ -2,38 +2,67 @@
 
 namespace App\Services\Authentication;
 
-use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
+use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
+    /** @var UserRepositoryInterface */
     private UserRepositoryInterface $repository;
 
+    /** @param UserRepositoryInterface $repository */
     public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    /**
-     * @param $request
-     * @return mixed
-     */
-    public function registration($request)
+    public function registrationEmailValid($data)
     {
-        $user = $this->repository->create($request);
+        $dataUser = $this->repository->findWhere(['email' => $data['email']]);
+        return count($dataUser);
 
     }
 
     /**
-     * @param $request
-     * @return mixed
+     * @inheritDoc
      */
-    public function login($request)
+    public function registerUser($data)
     {
 
-        $formFields = $request->only([ 'email', 'password']);
+        $dataUser = $this->repository->findWhere(['email' => $data['email']]);
 
-        return $formFields;
+        if (count($dataUser) == 0) {
+
+            $data['password'] = Hash::make($data['password']);
+
+            return $this->repository->create($data);
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function login($data)
+    {
+        /** @var Collection<User> $users */
+        $users = $this->repository->findWhere(['email' => $data['email']]);
+
+        if (count($users) == 0) {
+            return false;
+        }
+
+        $user = $users->first();
+
+        if (!Hash::check($data['password'], $user->password)) {
+            return false;
+        }
+
+        return $user;
     }
 }

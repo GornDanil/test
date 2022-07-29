@@ -25,9 +25,9 @@ Route::name('user.')->group(function () {
     Route::get(
         '/private',
         [PastesController::class, 'privateData']
-    )->name('private');
+    )->middleware('auth')->name('private');
 
-    Route::get('login', [LoginController::class, 'viewLogin'])->middleware('guest')->name('login.view');
+    Route::view('login', 'login')->middleware('guest')->name('login.view');
     Route::post('login', [LoginController::class, 'login'])->name('login.store');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');

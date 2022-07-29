@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\EmailNotUniqueException;
 use App\Http\Requests\AuthRequest;
-use App\Models\User;
-use App\Repositories\UserRepositoryInterface;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
@@ -17,46 +14,31 @@ class RegisterController extends Controller
 {
     /** @var AuthenticationServiceInterface */
     private AuthenticationServiceInterface $service;
-    private UserRepositoryInterface $repository;
+
     /**
      * @param AuthenticationServiceInterface $service
      */
-    public function __construct(AuthenticationServiceInterface $service, UserRepositoryInterface $repository)
+    public function __construct(AuthenticationServiceInterface $service)
     {
         $this->service = $service;
-        $this->repository = $repository;
     }
 
     /**
      * @param AuthRequest $request
-     * @return Application|RedirectResponse|Redirector
+     * @return Application|RedirectResponse|Redirector|void
      */
     public function save(AuthRequest $request)
     {
-        if (Auth::check()) {
-            return redirect(route('user.private'));
-        }
-        $request = $request->validated();
-        if ($this->repository->registr($request)) {
-            return redirect(route('user.registration.get'))->withErrors([
-                'email' => 'Такой пользователь уже зарегистрирован'
-            ]);
-        }
+        $data = $request->validated();
+        if ($this->service->registrationEmailValid($data) != 0) {
 
-        if ($this->service->registration($request)) {
-
-            return redirect(route('user.private'));
+            throw new EmailNotUniqueException();
         }
-        return redirect(route('user.login.view'))->withErrors([
-            'formError' => 'Произошла ошибка при сохранении пользователя'
-        ]);
+        $user = $this->service->registerUser($data);
+        if ($user) {
+            Auth::login($user);
+            return redirect(route('user.login.view'));
+        }
     }
 
-    /**
-     * @return Application|Factory|View
-     */
-    public function view()
-    {
-        return view(route('registration'));
-    }
 }

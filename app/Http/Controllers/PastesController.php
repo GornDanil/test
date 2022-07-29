@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PastesRequest;
-use App\Models\Paste;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class PastesController extends Controller
@@ -18,8 +16,10 @@ class PastesController extends Controller
     /** @var PastedServiceInterface */
     private PastedServiceInterface $service;
     private PasteRepositoryInterface $repository;
+
     /**
      * @param PastedServiceInterface $service
+     * @param PasteRepositoryInterface $repository
      */
     public function __construct(PastedServiceInterface $service, PasteRepositoryInterface $repository)
     {
@@ -28,21 +28,17 @@ class PastesController extends Controller
     }
 
     /**
-     * @param PastesRequest $req
+     * @param PastesRequest $request
      * @return RedirectResponse
      */
-    public function submit(PastesRequest $req)
+    public function submit(PastesRequest $request): RedirectResponse
     {
-        $FileRequest = $req->validated();
-        $user = auth::user();
-        if ($user) {
-            $this->service->savePastAuth($FileRequest);
-        } else {
-            $this->service->savePastNoAuth($FileRequest);
-        }
+        $FileRequest = $request->validated();
+
+        $this->service->savePastAuth($FileRequest);
 
 
-        return redirect()->route('home')->with('success', 'Сообщение было добавлено');
+        return redirect()->route('home');
     }
 
     /**
@@ -50,7 +46,7 @@ class PastesController extends Controller
      */
     public function allData()
     {
-        $user = Auth::check();
+        $user = Auth::user();
         $this->service->allPasteData($user);
         if ($user) {
             return view('messages', [
@@ -72,7 +68,7 @@ class PastesController extends Controller
     public function homeData()
     {
 
-        $user = Auth::check();
+        $user = Auth::user();
         if ($user) {
             return view('messages', [
                 'data' => $this->service->homePageData($user)[0],
@@ -87,16 +83,13 @@ class PastesController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|RedirectResponse|Redirector
+     * @return Application|Factory|View
      */
     public function privateData()
     {
-        $user = Auth::check();
-        if ($user) {
-            return view('private', ['data' => $this->service->privatePageData($user)]);
-        } else {
-            return redirect(route('user.login.view'));
-        }
+
+        return view('private', ['data' => $this->service->privatePageData()]);
+
     }
 
     /**

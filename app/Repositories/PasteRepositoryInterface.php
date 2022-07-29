@@ -11,7 +11,18 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface PasteRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @return mixed
+     */
+    public function model();
+    /**
+     * @return mixed
+     */
     public function modelPast();
 
+    /**
+     * @param $filter
+     * @return mixed
+     */
     public function makeFilter($filter);
 }
