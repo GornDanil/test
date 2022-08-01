@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -41,12 +45,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = [
+        "pastes"
+    ];
+
     /**
-     * @param $password
-     * @return void
+     * @return HasMany
      */
-//    public function setPasswordAttribute($password)
-//    {
-//        $this->attributes['password'] = Hash::make($password);
-//    }
+    public function pastes(): HasMany
+    {
+        return $this->hasMany(Paste::class);
+    }
 }

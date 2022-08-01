@@ -74,7 +74,7 @@
             </select>
         </div>
 
-        <input type="text" name="user_id" value="@if(Auth::user()) {{ Auth::User()->id }} @else {{ 'undefind' }} @endif"
+{{--        <input type="text" name="user_id" value="@if(Auth::user()) {{ Auth::User()->id }} @else {{ 'undefind' }} @endif"--}}
                placeholder="Укажите язык" id="user" class="form-control d-none">
         <button type="submit" name="button" id="Update" class="btn btn-success">Отправить</button>
     </form>

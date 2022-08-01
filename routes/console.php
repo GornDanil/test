@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -15,10 +16,9 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Artisan::command("debug", function () {
-    \Illuminate\Support\Facades\Lang::setLocale("en");
-    $data = ['email' => 'dfdsf', 'password' => 'sadfsadf', 'created_at' => '21.10.2021'];
-    $newData = new \App\Domain\DTO\LoginDTO($data);
-    dd($newData);
+    /** @var User $user */
+    $user = User::query()->find(21);
+    dd($user);
 });
 
 Artisan::command('inspire', function () {

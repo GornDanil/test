@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\DTO\PasteDTO;
 use App\Http\Requests\PastesRequest;
+use App\Models\User;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
 use Atwinta\DTO\Exceptions\DtoException;
@@ -49,6 +50,7 @@ class PastesController extends Controller
      */
     public function allData()
     {
+        /** @var User $user */
         $user = Auth::user();
         $this->service->allPasteData($user);
 
@@ -92,8 +94,8 @@ class PastesController extends Controller
      */
     public function privateData()
     {
-
-        return view('private', ['data' => $this->service->privatePageData()]);
+        $user = Auth::user();
+        return view('private', ['data' => $this->service->privatePageData($user)]);
 
     }
 

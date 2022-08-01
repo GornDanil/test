@@ -30,6 +30,7 @@ volumes:
 x-mutagen:
     sync:
         defaults:
+            scanMode: full
             ignore:
                 vcs: true
                 paths:

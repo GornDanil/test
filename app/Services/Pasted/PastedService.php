@@ -2,10 +2,12 @@
 
 
 namespace App\Services\Pasted;
+
 use App\Domain\DTO\PasteDTO;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
+use Illuminate\Support\Facades\Auth;
 
 class PastedService implements PastedServiceInterface
 {
@@ -20,6 +22,7 @@ class PastedService implements PastedServiceInterface
     public function __construct(PasteRepositoryInterface $repository)
     {
         $this->repository = $repository;
+
     }
 
     /**
@@ -28,14 +31,20 @@ class PastedService implements PastedServiceInterface
     public function savePastAuth(PasteDTO $pasteDTO)
     {
 
-            return $this->repository->create([
-                'title' => $pasteDTO->title,
-                'message' => $pasteDTO->message,
-                'expiration' => $pasteDTO->expiration,
-                'access' => $pasteDTO->access,
-                'lang' => $pasteDTO->lang,
-                'user' => $pasteDTO->user_id,
-            ]);
+        if (Auth::user()) {
+            $user = Auth::user()->id;
+        } else {
+            $user = null;
+        }
+
+        return $this->repository->create([
+            'title' => $pasteDTO->title,
+            'message' => $pasteDTO->message,
+            'expiration' => $pasteDTO->expiration,
+            'access' => $pasteDTO->access,
+            'lang' => $pasteDTO->lang,
+            'user_id' => $user
+        ]);
 
     }
 
@@ -48,7 +57,7 @@ class PastedService implements PastedServiceInterface
         if ($user) {
             return [
                 $this->repository->publicData()->where('access', 1)->paginate(10),
-                $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10)
+                $this->userRepository->UserPasts()->paginate(10)
             ];
 
         } else {
@@ -65,7 +74,7 @@ class PastedService implements PastedServiceInterface
         if ($user) {
             return [
                 $this->repository->publicData()->where('access', 1)->paginate(10),
-                $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10)
+                $this->userRepository->UserPasts()->paginate(10)
             ];
         } else {
             return $this->repository->publicData()->where('access', 1)->paginate(10);
@@ -76,8 +85,9 @@ class PastedService implements PastedServiceInterface
     /**
      * @inheritDoc
      */
-    public function privatePageData()
+    public function privatePageData($user)
     {
-        return $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10);
+        dd(User::query()->pastes->find($user->id));
+
     }
 }

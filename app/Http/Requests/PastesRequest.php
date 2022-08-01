@@ -29,7 +29,6 @@ class PastesRequest extends FormRequest
             'access' => 'required',
             'message' => 'required|min:15',
             'lang' => 'required',
-            'user_id' => 'required'
         ];
     }
 }

@@ -25,5 +25,4 @@ class PasteDTO extends DTO
     public string $lang;
 
     /** @var int  */
-    public int $user_id;
 }

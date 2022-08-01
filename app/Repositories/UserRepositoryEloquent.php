@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Paste;
 use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -21,4 +22,5 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepositoryInt
     {
         return User::class;
     }
+
 }
