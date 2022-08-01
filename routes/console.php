@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command("debug", function() {
-    dd(route('user.login.store'));
+Artisan::command("debug", function () {
+    \Illuminate\Support\Facades\Lang::setLocale("en");
+    $data = ['email' => 'dfdsf', 'password' => 'sadfsadf', 'created_at' => '21.10.2021'];
+    $newData = new \App\Domain\DTO\LoginDTO($data);
+    dd($newData);
 });
 
 Artisan::command('inspire', function () {

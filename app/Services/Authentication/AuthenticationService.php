@@ -2,6 +2,7 @@
 
 namespace App\Services\Authentication;
 
+use App\Domain\DTO\RegistrDTO;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
@@ -19,9 +20,12 @@ class AuthenticationService implements AuthenticationServiceInterface
         $this->repository = $repository;
     }
 
-    public function registrationEmailValid($data)
+    /**
+     * @inheritDoc
+     */
+    public function registrationEmailValid(RegistrDTO $data)
     {
-        $dataUser = $this->repository->findWhere(['email' => $data['email']]);
+        $dataUser = $this->repository->findWhere(['email' => $data->email]);
         return count($dataUser);
 
     }
@@ -29,16 +33,16 @@ class AuthenticationService implements AuthenticationServiceInterface
     /**
      * @inheritDoc
      */
-    public function registerUser($data)
+    public function registerUser(RegistrDTO $data)
     {
 
-        $dataUser = $this->repository->findWhere(['email' => $data['email']]);
+        $dataUser = $this->repository->findWhere(['email' => $data->email]);
 
         if (count($dataUser) == 0) {
 
-            $data['password'] = Hash::make($data['password']);
+            $data->password = Hash::make($data->password);
 
-            return $this->repository->create($data);
+            return $this->repository->create((array)$data);
         } else {
             return false;
         }
@@ -51,7 +55,7 @@ class AuthenticationService implements AuthenticationServiceInterface
     public function login($data)
     {
         /** @var Collection<User> $users */
-        $users = $this->repository->findWhere(['email' => $data['email']]);
+        $users = $this->repository->findWhere(['email' => $data->email]);
 
         if (count($users) == 0) {
             return false;
@@ -59,7 +63,7 @@ class AuthenticationService implements AuthenticationServiceInterface
 
         $user = $users->first();
 
-        if (!Hash::check($data['password'], $user->password)) {
+        if (!Hash::check($data->password, $user->password)) {
             return false;
         }
 

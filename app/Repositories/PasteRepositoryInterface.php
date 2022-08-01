@@ -20,9 +20,6 @@ interface PasteRepositoryInterface extends RepositoryInterface
      */
     public function modelPast();
 
-    /**
-     * @param $filter
-     * @return mixed
-     */
-    public function makeFilter($filter);
+    /** @return mixed */
+    public function publicData();
 }

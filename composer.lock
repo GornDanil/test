@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd6c7b97e13ef3c6389a97e519c98038",
+    "content-hash": "2fbe61f2629ff9803a99d5191d8bf534",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,46 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
+        },
+        {
+            "name": "atwinta/dto-package",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://dto-package:6J7vteA3ptbmqyMBhwpg@gitlab.atwinta.ru/templates/backend/packages/dto-package.git",
+                "reference": "f769a42718e4ee415958d65f4867eb1d2bdd4cf1"
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^7.19|^8.0",
+                "illuminate/support": "^7.19|^8.0",
+                "php": "~7.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Atwinta\\DTO\\DtoServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Atwinta\\DTO\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "xwillq",
+                    "email": "pasha.shevchenko.90@gmail.com"
+                },
+                {
+                    "name": "Nikita",
+                    "email": "evan.gelior@ya.ru"
+                }
+            ],
+            "description": "DTO Package",
+            "time": "2021-08-23T04:22:05+00:00"
         },
         {
             "name": "brick/math",
@@ -633,6 +673,59 @@
                 }
             ],
             "time": "2021-11-21T21:41:47+00:00"
+        },
+        {
+            "name": "guest-one/composer-require-ext",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/GuestOne/composer-require-ext.git",
+                "reference": "58e03c795042f5378d03b91a744bc46d14b4d119"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/GuestOne/composer-require-ext/get/58e03c795042f5378d03b91a744bc46d14b4d119.zip",
+                "reference": "58e03c795042f5378d03b91a744bc46d14b4d119",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "GO\\RequireExtPlugin\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "GO\\RequireExtPlugin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugene Popov",
+                    "email": "popov_e_n@mail.ru"
+                }
+            ],
+            "description": "This Composer plugin adds \"require-ext\" command which makes using of private repositories and packages smoother.",
+            "homepage": "https://bitbucket.org/GuestOne/composer-require-ext",
+            "keywords": [
+                "composer-plugin",
+                "private-repository",
+                "require"
+            ],
+            "support": {
+                "issues": "https://bitbucket.org/GuestOne/composer-require-ext/issues",
+                "source": "https://bitbucket.org/GuestOne/composer-require-ext/src/58e03c795042f5378d03b91a744bc46d14b4d119/?at=2.0.2"
+            },
+            "time": "2021-04-05T17:08:49+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -2,7 +2,8 @@
 
 
 namespace App\Services\Pasted;
-
+use App\Domain\DTO\PasteDTO;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
 
@@ -24,16 +25,16 @@ class PastedService implements PastedServiceInterface
     /**
      * @inheritDoc
      */
-    public function savePastAuth($FileRequest)
+    public function savePastAuth(PasteDTO $pasteDTO)
     {
 
             return $this->repository->create([
-                'title' => $FileRequest['title'],
-                'message' => $FileRequest['message'],
-                'expiration' => $FileRequest['expiration'],
-                'access' => $FileRequest['access'],
-                'lang' => $FileRequest['lang'],
-                'user' => $FileRequest['user_id'],
+                'title' => $pasteDTO->title,
+                'message' => $pasteDTO->message,
+                'expiration' => $pasteDTO->expiration,
+                'access' => $pasteDTO->access,
+                'lang' => $pasteDTO->lang,
+                'user' => $pasteDTO->user_id,
             ]);
 
     }
@@ -45,10 +46,13 @@ class PastedService implements PastedServiceInterface
     public function allPasteData($user)
     {
         if ($user) {
-            return $this->repository->makeFilter('allData');
+            return [
+                $this->repository->publicData()->where('access', 1)->paginate(10),
+                $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10)
+            ];
 
         } else {
-            return $this->repository->makeFilter('noPrivateData');
+            return $this->repository->publicData()->where('access', 1)->paginate(10);
 
         }
     }
@@ -59,9 +63,12 @@ class PastedService implements PastedServiceInterface
     public function homePageData($user)
     {
         if ($user) {
-                return $this->repository->makeFilter('allHome');
+            return [
+                $this->repository->publicData()->where('access', 1)->paginate(10),
+                $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10)
+            ];
         } else {
-            return $this->repository->makeFilter('homeNoPrivateData');
+            return $this->repository->publicData()->where('access', 1)->paginate(10);
         }
 
     }
@@ -71,6 +78,6 @@ class PastedService implements PastedServiceInterface
      */
     public function privatePageData()
     {
-        return $this->repository->makeFilter('privatePageData');
+        return $this->repository->publicData()->where('user', Auth::user()->id)->paginate(10);
     }
 }

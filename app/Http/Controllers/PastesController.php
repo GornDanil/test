@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\DTO\PasteDTO;
 use App\Http\Requests\PastesRequest;
 use App\Repositories\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
+use Atwinta\DTO\Exceptions\DtoException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -30,12 +32,13 @@ class PastesController extends Controller
     /**
      * @param PastesRequest $request
      * @return RedirectResponse
+     * @throws DtoException
      */
     public function submit(PastesRequest $request): RedirectResponse
     {
         $FileRequest = $request->validated();
-
-        $this->service->savePastAuth($FileRequest);
+        $pasteDTO = new PasteDTO($FileRequest);
+        $this->service->savePastAuth($pasteDTO);
 
 
         return redirect()->route('home');
@@ -48,7 +51,9 @@ class PastesController extends Controller
     {
         $user = Auth::user();
         $this->service->allPasteData($user);
+
         if ($user) {
+
             return view('messages', [
                 'data' => $this->service->allPasteData($user)[0],
                 'private' => $this->service->allPasteData($user)[1],

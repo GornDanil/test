@@ -3,14 +3,16 @@
 namespace App\Services\Pasted\Abstracts;
 
 
+use App\Domain\DTO\PasteDTO;
+
 interface PastedServiceInterface
 {
 
     /**
-     * @param array $FileRequest
+     * @param PasteDTO $pasteDTO
      * @return mixed
      */
-    public function savePastAuth(array $FileRequest);
+    public function savePastAuth(PasteDTO $pasteDTO);
 
     /**
      * @param object $user

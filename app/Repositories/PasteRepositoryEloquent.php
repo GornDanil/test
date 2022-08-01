@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Paste;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -34,42 +33,13 @@ class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryI
 
     /**
      * @inheritDoc
-     * @throws RepositoryException
      */
-    public function makeFilter($filter)
+    public function publicData()
     {
         /** Collection<Paste> */
-        /** LengthAwarePaginator<Paste> */
-
-
         /** @var Builder $query */
         $query = $this->makeModel();
-        if ($filter == 'allData') {
-            return [$query->where('access', '=', 1)->paginate(10),
-                $query->where('user', '=', Auth::user()->id)->paginate(10)];
-        } elseif ($filter == 'noPrivateData') {
-            return $query->where('access', '=', 1
-            )->paginate(10);
-        } elseif ($filter == 'allHome') {
 
-            return [$query->where('access', '=', 1
-            )->orderBy('created_at', 'desc')->paginate(10),
-                $query->where('user', '=', Auth::user()->id
-                )->orderBy('created_at', 'desc')->paginate(10)];
-
-        } elseif ($filter == "homeNoPrivateData") {
-
-            return $query->where('access', '=', 1
-            )->orderBy('created_at', 'desc')->paginate(10);
-
-        } elseif ($filter == "privatePageData") {
-
-            return $query->where('user', '=', Auth::User()->id
-            )->orderBy('created_at', 'desc')->paginate(10);
-
-        }
-
-        return $query->where('access', '=', 1
-        )->orderBy('created_at', 'desc')->paginate(10);
+        return $query;
     }
 }
