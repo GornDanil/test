@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Pastes;
 
 use App\Models\Paste;
+use App\Models\User;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -26,20 +26,18 @@ class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryI
     /**
      * @inheritDoc
      */
-    public function modelPast()
-    {
-        return new Paste();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function publicData()
+    public function publicData(?User $user = null): array
     {
         /** Collection<Paste> */
         /** @var Builder $query */
         $query = $this->makeModel();
 
-        return $query;
+        $data['data'] = $query->where('access_key', 'public')->paginate(10);
+
+        if ($user !== null) {
+            $data['private'] = $query->where('user_id', $user->id)->paginate(10);
+        }
+
+        return $data;
     }
 }

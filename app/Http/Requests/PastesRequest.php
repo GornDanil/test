@@ -19,14 +19,14 @@ class PastesRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {
         return [
             'title' => 'required|min:2|max:100',
             'expiration' => 'required',
-            'access' => 'required',
+            'access_key' => 'required',
             'message' => 'required|min:15',
             'lang' => 'required',
         ];

@@ -3,18 +3,18 @@
 namespace App\Providers;
 
 
+use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
+use App\Services\Authentication\AuthenticationService;
+use App\Services\Pasted\Abstracts\PastedServiceInterface;
+use App\Services\Pasted\PastedService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
+    /** @var string[] */
     protected array $mappings = [
-        \App\Services\Authentication\Abstracts\AuthenticationServiceInterface::class => \App\Services\Authentication\AuthenticationService::class,
-        \App\Services\Pasted\Abstracts\PastedServiceInterface::class => \App\Services\Pasted\PastedService::class,
+        AuthenticationServiceInterface::class => AuthenticationService::class,
+        PastedServiceInterface::class => PastedService::class,
     ];
 
     public function register()

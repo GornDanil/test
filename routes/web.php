@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PastesController::class, 'homeData'])->name('home');
+Route::get('/', [PastesController::class, 'allData'])->name('home');
 
 Route::view('/paste', 'paste')->name('paste');
 

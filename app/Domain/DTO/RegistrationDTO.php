@@ -7,7 +7,7 @@ namespace App\Domain\DTO;
  *
  * @package App\Domain\DTO
  */
-class RegistrDTO extends DTO
+class RegistrationDTO extends DTO
 {
     /** @var string  */
     public string $name;

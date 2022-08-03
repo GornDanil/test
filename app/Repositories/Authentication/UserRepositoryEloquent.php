@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Authentication;
 
-use App\Models\Paste;
 use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 

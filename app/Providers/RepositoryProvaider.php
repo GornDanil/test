@@ -2,14 +2,15 @@
 
 namespace App\Providers;
 
-use App\Repositories\PasteRepositoryEloquent;
-use App\Repositories\PasteRepositoryInterface;
-use App\Repositories\UserRepositoryEloquent;
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\Authentication\UserRepositoryEloquent;
+use App\Repositories\Authentication\UserRepositoryInterface;
+use App\Repositories\Pastes\PasteRepositoryEloquent;
+use App\Repositories\Pastes\PasteRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvaider extends ServiceProvider
 {
+    /** @var string[] */
     protected array $mappings = [
         PasteRepositoryInterface::class => PasteRepositoryEloquent::class,
         UserRepositoryInterface::class => UserRepositoryEloquent::class,

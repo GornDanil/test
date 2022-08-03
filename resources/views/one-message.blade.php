@@ -4,28 +4,28 @@
 
 @section('content')
     @if(Auth::check())
-        @if($data->access == 3 and $data->user == Auth::user()->email )
-        <h1> {{ $data->title }} </h1> 
+        @if($data->access_key == 'private' and $data->user_id == Auth::user()->id )
+        <h1> {{ $data->title }} </h1>
         <div class="alert alert-info">
             <textarea id="message" class="d-none">{{ $data->message }}</textarea>
             <div id="editor"></div>
             <p><small>{{ $data->created_at }}</small></p>
         </div>
-        @elseif($data->access == 1 or $data->access == 2)
-        <h1> {{ $data->title }} </h1> 
+        @elseif($data->access_key == 'public' or $data->access_key == 'unlisting')
+        <h1> {{ $data->title }} </h1>
         <div class="alert alert-info">
             <textarea id="message" class="d-none">{{ $data->message }}</textarea>
             <div id="editor"></div>
             <p><small>{{ $data->created_at }}</small></p>
         </div>
-        @elseif($data->access == 3 and $data->user != Auth::user()->email)
+        @elseif($data->access_key == 'private' and $data->user != Auth::user()->email)
         <h1>У вас нет доступа к этой записи</h1>
         @endif
     @elseif(Auth::check() != true)
-        @if($data->access == 3)
+        @if($data->access_key == 'private')
         <h1>У вас нет доступа к этой записи</h1>
-        @elseif($data->access == 1 or $data->access == 2)
-        <h1> {{ $data->title }} </h1> 
+        @elseif($data->access_key == 'public' or $data->access_key == 'private')
+        <h1> {{ $data->title }} </h1>
         <div class="alert alert-info">
             <textarea id="message" class="d-none">{{ $data->message }}</textarea>
             <div id="editor"></div>
@@ -43,9 +43,9 @@
         var mess = $('#message').val();
         editor.session.setValue(mess);
         var lang = $("#lang").val();
-    
+
         editor.getSession().setMode("ace/mode/{{$data->lang}}");
-        
+
     </script>
 @endsection
- 
+

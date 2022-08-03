@@ -17,9 +17,7 @@ class LoginController extends Controller
     /** @var AuthenticationServiceInterface */
     private AuthenticationServiceInterface $service;
 
-    /**
-     * @param AuthenticationServiceInterface $service
-     */
+    /** @param AuthenticationServiceInterface $service */
     public function __construct(AuthenticationServiceInterface $service)
     {
         $this->service = $service;
@@ -43,9 +41,7 @@ class LoginController extends Controller
         }
     }
 
-    /**
-     * @return Application|RedirectResponse|Redirector
-     */
+    /** @return Application|RedirectResponse|Redirector */
     public function logout()
     {
         Auth::logout();

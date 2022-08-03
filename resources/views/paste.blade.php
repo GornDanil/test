@@ -66,16 +66,14 @@
         </div>
         <div class="form-group">
             <label for="access">Доступ</label>
-            <select name="access" class="form-control" id="access">
-                <option value="1">public</option>
-                <option value="2">unlisted</option>
-                <option value="3">private</option>
+            <select name="access_key" class="form-control" id="access">
+                <option value="public">public</option>
+                <option value="unlisted">unlisted</option>
+                <option value="private">private</option>
 
             </select>
         </div>
 
-{{--        <input type="text" name="user_id" value="@if(Auth::user()) {{ Auth::User()->id }} @else {{ 'undefind' }} @endif"--}}
-               placeholder="Укажите язык" id="user" class="form-control d-none">
         <button type="submit" name="button" id="Update" class="btn btn-success">Отправить</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

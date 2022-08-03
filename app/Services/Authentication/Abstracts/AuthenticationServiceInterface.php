@@ -2,27 +2,19 @@
 
 namespace App\Services\Authentication\Abstracts;
 
-use App\Domain\DTO\RegistrDTO;
+use App\Domain\DTO\RegistrationDTO;
 
 interface AuthenticationServiceInterface
 {
     /**
-     * @param RegistrDTO $data
+     * @param RegistrationDTO $data
      * @return mixed
      */
-    public function registrationEmailValid(RegistrDTO $data);
-
-    /**
-     * @param RegistrDTO $data
-     * @return mixed
-     */
-    public function registerUser(RegistrDTO $data);
+    public function registerUser(RegistrationDTO $data);
 
     /**
      * @param object $data
      * @return mixed
      */
     public function login(object $data);
-
-
 }

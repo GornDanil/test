@@ -15,14 +15,12 @@ class PasteDTO extends DTO
     /** @var int  */
     public int $expiration;
 
-    /** @var int  */
-    public int $access;
+    /** @var string  */
+    public string $access_key;
 
     /** @var string  */
     public string $message;
 
     /** @var string  */
     public string $lang;
-
-    /** @var int  */
 }

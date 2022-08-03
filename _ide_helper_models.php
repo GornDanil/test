@@ -20,21 +20,23 @@ namespace App\Models{
  * @property string $expiration
  * @property string $access
  * @property string $lang
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int|null $user_id
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereAccess($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereExpiration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereLang($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereUserId($value)
+ * @method static Builder|Paste newModelQuery()
+ * @method static Builder|Paste newQuery()
+ * @method static Builder|Paste query()
+ * @method static Builder|Paste whereAccess($value)
+ * @method static Builder|Paste whereCreatedAt($value)
+ * @method static Builder|Paste whereExpiration($value)
+ * @method static Builder|Paste whereId($value)
+ * @method static Builder|Paste whereLang($value)
+ * @method static Builder|Paste whereMessage($value)
+ * @method static Builder|Paste whereTitle($value)
+ * @method static Builder|Paste whereUpdatedAt($value)
+ * @method static Builder|Paste whereUserId($value)
+ * @property string|null $access_key
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Paste whereAccessKey($value)
  */
 	class IdeHelperPaste {}
 }

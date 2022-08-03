@@ -4,90 +4,42 @@
 namespace App\Services\Pasted;
 
 use App\Domain\DTO\PasteDTO;
-use App\Models\User;
-use App\Repositories\PasteRepositoryInterface;
+use App\Repositories\Pastes\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
-use Illuminate\Support\Facades\Auth;
 
 class PastedService implements PastedServiceInterface
 {
-    /**
-     * @var PasteRepositoryInterface
-     */
+    /** @var PasteRepositoryInterface */
     private PasteRepositoryInterface $repository;
 
-    /**
-     * @param PasteRepositoryInterface $repository
-     */
+    /** @param PasteRepositoryInterface $repository */
     public function __construct(PasteRepositoryInterface $repository)
     {
         $this->repository = $repository;
-
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function savePastAuth(PasteDTO $pasteDTO)
+    /** @inheritDoc */
+    public function savePastAuth(PasteDTO $pasteDTO, $user)
     {
-
-        if (Auth::user()) {
-            $user = Auth::user()->id;
-        } else {
-            $user = null;
-        }
-
         return $this->repository->create([
             'title' => $pasteDTO->title,
             'message' => $pasteDTO->message,
             'expiration' => $pasteDTO->expiration,
-            'access' => $pasteDTO->access,
+            'access_key' => $pasteDTO->access_key,
             'lang' => $pasteDTO->lang,
-            'user_id' => $user
+            'user_id' => $user->id
         ]);
-
     }
 
-
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function allPasteData($user)
     {
-        if ($user) {
-            return [
-                $this->repository->publicData()->where('access', 1)->paginate(10),
-                $this->userRepository->UserPasts()->paginate(10)
-            ];
-
-        } else {
-            return $this->repository->publicData()->where('access', 1)->paginate(10);
-
-        }
+        return $this->repository->publicData($user);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function homePageData($user)
+    /** @inheritDoc */
+    public function showOneMessage(int $id)
     {
-        if ($user) {
-            return [
-                $this->repository->publicData()->where('access', 1)->paginate(10),
-                $this->userRepository->UserPasts()->paginate(10)
-            ];
-        } else {
-            return $this->repository->publicData()->where('access', 1)->paginate(10);
-        }
-
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function privatePageData($user)
-    {
-        dd(User::query()->pastes->find($user->id));
-
+        return $this->repository->find($id);
     }
 }

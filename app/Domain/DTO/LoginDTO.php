@@ -19,13 +19,4 @@ class LoginDTO extends DTO
 
     /** @var Carbon  */
     public Carbon $created_at;
-
-    /**
-     * @param string $value
-     * @return Carbon
-     */
-//    public function setCreatedAtAttribute(string $value): Carbon
-//    {
-//        return Carbon::parse($value);
-//    }
 }

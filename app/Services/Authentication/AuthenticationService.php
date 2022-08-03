@@ -2,69 +2,53 @@
 
 namespace App\Services\Authentication;
 
-use App\Domain\DTO\RegistrDTO;
+use App\Domain\DTO\RegistrationDTO;
+use App\Exceptions\EmailNotUniqueException;
 use App\Models\User;
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\Authentication\UserRepositoryInterface;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
-    /** @var UserRepositoryInterface */
+    /** @var \App\Repositories\Authentication\UserRepositoryInterface */
     private UserRepositoryInterface $repository;
 
-    /** @param UserRepositoryInterface $repository */
+    /** @param \App\Repositories\Authentication\UserRepositoryInterface $repository */
     public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function registrationEmailValid(RegistrDTO $data)
+    /** @inheritDoc */
+    public function registerUser(RegistrationDTO $data)
     {
-        $dataUser = $this->repository->findWhere(['email' => $data->email]);
-        return count($dataUser);
-
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function registerUser(RegistrDTO $data)
-    {
-
         $dataUser = $this->repository->findWhere(['email' => $data->email]);
 
         if (count($dataUser) == 0) {
-
             $data->password = Hash::make($data->password);
-
-            return $this->repository->create((array)$data);
+            return $this->repository->create($data->toArray());
         } else {
-            return false;
+            throw new EmailNotUniqueException();
         }
 
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function login($data)
     {
         /** @var Collection<User> $users */
         $users = $this->repository->findWhere(['email' => $data->email]);
 
         if (count($users) == 0) {
-            return false;
+            throw new EmailNotUniqueException();
         }
 
         $user = $users->first();
 
         if (!Hash::check($data->password, $user->password)) {
-            return false;
+            throw new EmailNotUniqueException();
         }
 
         return $user;

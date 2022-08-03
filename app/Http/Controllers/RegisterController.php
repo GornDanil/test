@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\DTO\RegistrDTO;
-use App\Exceptions\EmailNotUniqueException;
+use App\Domain\DTO\RegistrationDTO;
 use App\Http\Requests\AuthRequest;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Atwinta\DTO\Exceptions\DtoException;
@@ -27,22 +26,20 @@ class RegisterController extends Controller
 
     /**
      * @param AuthRequest $request
-     * @return Application|RedirectResponse|Redirector|void
+     * @return Application|RedirectResponse|Redirector
      * @throws DtoException
      */
     public function save(AuthRequest $request)
     {
         $data = $request->validated();
-        $registryDTO = new RegistrDTO($data);
-        if ($this->service->registrationEmailValid($registryDTO) != 0) {
 
-            throw new EmailNotUniqueException();
-        }
+        $registryDTO = new RegistrationDTO($data);
+
         $user = $this->service->registerUser($registryDTO);
-        if ($user) {
-            Auth::login($user);
-            return redirect(route('user.login.view'));
-        }
+
+        Auth::login($user);
+
+        return redirect(route('user.login.view'));
     }
 
 }
