@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
-    /** @var \App\Repositories\Authentication\Abstracts\UserRepositoryInterface */
-    private \App\Repositories\Authentication\Abstracts\UserRepositoryInterface $repository;
+    /** @var UserRepositoryInterface */
+    private UserRepositoryInterface $repository;
 
     /** @param UserRepositoryInterface $repository */
     public function __construct(UserRepositoryInterface $repository)
@@ -23,7 +23,7 @@ class AuthenticationService implements AuthenticationServiceInterface
     }
 
     /** @inheritDoc */
-    public function registerUser(RegistrationDTO $data)
+    public function registerUser(RegistrationDTO $data): User
     {
         $dataUser = $this->repository->findWhere(['email' => $data->email]);
 
@@ -37,7 +37,7 @@ class AuthenticationService implements AuthenticationServiceInterface
     }
 
     /** @inheritDoc */
-    public function login($data)
+    public function login($data): User
     {
         /** @var Collection<User> $users */
         $users = $this->repository->findWhere(['email' => $data->email]);

@@ -47,7 +47,3 @@ Route::get(
     'paste/{id}',
     [PastesController::class, 'showOneMessage']
 )->name('contact-data-one');
-
-Route::middleware('auth')->get('/test', function () {
-    dd(Auth::user());
-});

@@ -4,6 +4,7 @@
 namespace App\Services\Pasted;
 
 use App\Domain\DTO\PasteDTO;
+use App\Exceptions\AuthontificationException;
 use App\Models\Paste;
 use App\Models\User;
 use App\Repositories\Pastes\Abstracts\PasteRepositoryInterface;
@@ -28,13 +29,13 @@ class PastedService implements PastedServiceInterface
     }
 
     /** @inheritDoc */
-    public function allPasteData($user): array
+    public function allPasteData($user = null): array
     {
         return $this->repository->publicData($user);
     }
 
     /** @inheritDoc */
-    public function showOneMessage(int $id): Paste
+    public function showOneMessage(int $id): ?Paste
     {
         return $this->repository->findWhere(['id' => $id])->first();
     }

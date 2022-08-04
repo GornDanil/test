@@ -36,7 +36,7 @@ class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryI
         $data['data'] = $query->where('access_key', AccessSlug::PUBLIC)->paginate(10);
 
         if ($user !== null) {
-            $data['private'] = $query->where('user_id', $user->id)->paginate(10);
+            $data['private'] = $query->where('user_id', $user->id ?? null)->paginate(10);
         }
 
         return $data;

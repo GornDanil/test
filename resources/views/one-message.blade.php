@@ -3,6 +3,7 @@
 @section('title-block')Запись @endsection
 
 @section('content')
+    @if($data)
     @if(Auth::check())
         @if($data->access_key == 'private' and $data->user_id == Auth::user()->id )
         <h1> {{ $data->title }} </h1>
@@ -32,6 +33,11 @@
             <p><small>{{ $data->created_at }}</small></p>
         </div>
         @endif
+
+
+    @endif
+    @else
+        <h1>Такой записи не существует</h1>
     @endif
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>

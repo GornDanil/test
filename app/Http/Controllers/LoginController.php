@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domain\DTO\LoginDTO;
-use App\Exceptions\EmailNotUniqueException;
 use App\Http\Requests\LoginRequest;
 use App\Services\Authentication\Abstracts\AuthenticationServiceInterface;
 use Atwinta\DTO\Exceptions\DtoException;
