@@ -67,10 +67,10 @@
         <div class="form-group">
             <label for="access">Доступ</label>
             <select name="access_key" class="form-control" id="access">
-                <option value="public">public</option>
-                <option value="unlisted">unlisted</option>
+                <option value="{{ \App\Domain\Enums\Pastes\AccessSlug::PUBLIC }}">public</option>
+                <option value="{{ \App\Domain\Enums\Pastes\AccessSlug::UNLISTED }}">unlisted</option>
                 @if(Auth::check())
-                <option value="private">private</option>
+                <option value="{{ \App\Domain\Enums\Pastes\AccessSlug::PRIVATE }}">private</option>
                 @endif
             </select>
         </div>

@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
-    /** @var \App\Repositories\Authentication\UserRepositoryInterface */
+    /** @var UserRepositoryInterface */
     private UserRepositoryInterface $repository;
 
-    /** @param \App\Repositories\Authentication\UserRepositoryInterface $repository */
+    /** @param UserRepositoryInterface $repository */
     public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
