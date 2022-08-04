@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Pastes;
+namespace App\Repositories\Pastes\Abstracts;
 
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -14,10 +14,6 @@ use Prettus\Repository\Exceptions\RepositoryException;
  */
 interface PasteRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @return mixed
-     */
-    public function model();
 
     /**
      * @param User|null $user

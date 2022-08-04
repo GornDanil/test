@@ -4,7 +4,9 @@
 namespace App\Services\Pasted;
 
 use App\Domain\DTO\PasteDTO;
-use App\Repositories\Pastes\PasteRepositoryInterface;
+use App\Models\Paste;
+use App\Models\User;
+use App\Repositories\Pastes\Abstracts\PasteRepositoryInterface;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
 
 class PastedService implements PastedServiceInterface
@@ -19,21 +21,21 @@ class PastedService implements PastedServiceInterface
     }
 
     /** @inheritDoc */
-    public function savePastAuth(PasteDTO $pasteDTO, $user)
+    public function savePastAuth(PasteDTO $pasteDTO, User $user): Paste
     {
         $validateDTO = array_merge($pasteDTO->toArray(), ['user_id' => $user->id ?? null]);
         return $this->repository->create($validateDTO);
     }
 
     /** @inheritDoc */
-    public function allPasteData($user)
+    public function allPasteData($user): array
     {
         return $this->repository->publicData($user);
     }
 
     /** @inheritDoc */
-    public function showOneMessage(int $id)
+    public function showOneMessage(int $id): Paste
     {
-        return $this->repository->find($id);
+        return $this->repository->findWhere(['id' => $id])->first();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Authentication;
 
 use App\Models\User;
+use App\Repositories\Authentication\Abstracts\UserRepositoryInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**

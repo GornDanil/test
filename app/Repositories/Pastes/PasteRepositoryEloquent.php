@@ -5,9 +5,9 @@ namespace App\Repositories\Pastes;
 use App\Domain\Enums\Pastes\AccessSlug;
 use App\Models\Paste;
 use App\Models\User;
+use App\Repositories\Pastes\Abstracts\PasteRepositoryInterface;
 use Illuminate\Database\Query\Builder;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
  * Class PasteRepositoryEloquent.
@@ -36,7 +36,7 @@ class PasteRepositoryEloquent extends BaseRepository implements PasteRepositoryI
         $data['data'] = $query->where('access_key', AccessSlug::PUBLIC)->paginate(10);
 
         if ($user !== null) {
-            $data[AccessSlug::PRIVATE] = $query->where('user_id', $user->id)->paginate(10);
+            $data['private'] = $query->where('user_id', $user->id)->paginate(10);
         }
 
         return $data;

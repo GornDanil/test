@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domain\DTO\PasteDTO;
-use App\Domain\Enums\Pastes\AccessSlug;
 use App\Http\Requests\PastesRequest;
 use App\Models\User;
 use App\Services\Pasted\Abstracts\PastedServiceInterface;
@@ -66,7 +65,7 @@ class PastesController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $data = $this->service->allPasteData($user);
-        return view(AccessSlug::PRIVATE, ['data' => $data[AccessSlug::PRIVATE] ?? []]);
+        return view('private', ['data' => $data['private'] ?? []]);
     }
 
     /**

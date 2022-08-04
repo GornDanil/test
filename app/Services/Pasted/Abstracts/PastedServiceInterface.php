@@ -4,6 +4,7 @@ namespace App\Services\Pasted\Abstracts;
 
 
 use App\Domain\DTO\PasteDTO;
+use App\Models\Paste;
 use App\Models\User;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -11,26 +12,21 @@ interface PastedServiceInterface
 {
     /**
      * @param PasteDTO $pasteDTO
-     * @param mixed $user
-     * @return mixed
+     * @param User $user
+     * @return Paste
      */
-    public function savePastAuth(PasteDTO $pasteDTO, $user);
+    public function savePastAuth(PasteDTO $pasteDTO, User $user): Paste;
 
     /**
      * @param User $user
-     * @return mixed
+     * @return array
      * @throws RepositoryException
      */
-    public function allPasteData(User $user);
-
-    /**
-     * @param User $user
-     * @return mixed
-     */
+    public function allPasteData(User $user): array;
 
     /**
      * @param int $id
-     * @return mixed
+     * @return Paste
      */
-    public function showOneMessage(int $id);
+    public function showOneMessage(int $id): Paste;
 }

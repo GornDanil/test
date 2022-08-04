@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Authentication\Abstracts\UserRepositoryInterface;
 use App\Repositories\Authentication\UserRepositoryEloquent;
-use App\Repositories\Authentication\UserRepositoryInterface;
+use App\Repositories\Pastes\Abstracts\PasteRepositoryInterface;
 use App\Repositories\Pastes\PasteRepositoryEloquent;
-use App\Repositories\Pastes\PasteRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvaider extends ServiceProvider

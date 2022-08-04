@@ -27,6 +27,7 @@ class RemoveAccessInPastesTable extends Migration
     public function down()
     {
         Schema::table('pastes', function (Blueprint $table) {
+            $table->dropForeign(['access_key']);
             $table->dropColumn('access_key');
         });
     }
