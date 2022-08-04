@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 /**
  * App\Models\Paste
- *
+ * @mixin IdeHelperPaste
  * @property int $id
  * @property string|null $title
  * @property string $message
@@ -30,7 +30,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Paste whereTitle($value)
  * @method static Builder|Paste whereUpdatedAt($value)
  * @method static Builder|Paste whereUserId($value)
- * @mixin IdeHelperPaste
  */
 class Paste extends Model
 {

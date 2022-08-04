@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domain\Enums\Pastes\AccessSlug;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,10 +15,10 @@ class AccessTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('access')->insert([
-            ['slug' => 'public'],
-            ['slug' => 'unlisted'],
-            ['slug' => 'private']
-        ]);
+        foreach (AccessSlug::all() as $value) {
+            DB::table('access')->updateOrInsert(['slug' => $value]);
+        }
+
+
     }
 }

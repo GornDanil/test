@@ -15,8 +15,6 @@ class RegistrationDTO extends DTO
     /** @var string  */
     public string $email;
 
-    /** @var string  */
-    public string $email_repeat;
 
     /** @var string  */
     public string $password;

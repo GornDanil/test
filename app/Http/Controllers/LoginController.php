@@ -33,12 +33,8 @@ class LoginController extends Controller
         $data = $request->validated();
         $loginDTO = new LoginDTO($data);
         $user = $this->service->login($loginDTO);
-        if ($user) {
-            Auth::login($user);
-            return redirect()->intended(route('user.private'));
-        } else {
-            throw new EmailNotUniqueException();
-        }
+        Auth::login($user);
+        return redirect()->intended(route('user.private'));
     }
 
     /** @return Application|RedirectResponse|Redirector */

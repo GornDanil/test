@@ -7,4 +7,5 @@ class EmailNotUniqueException extends BaseException
 {
     /** @var array|string[] */
     protected array $errors = ['email' => 'Пользователь с таким Email уже существует'];
+    protected int $statusCode = 403;
 }

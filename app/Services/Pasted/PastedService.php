@@ -21,19 +21,8 @@ class PastedService implements PastedServiceInterface
     /** @inheritDoc */
     public function savePastAuth(PasteDTO $pasteDTO, $user)
     {
-        if($user) {
-            $userId = $user->id;
-        } else {
-            $userId = $user;
-        }
-        return $this->repository->create([
-            'title' => $pasteDTO->title,
-            'message' => $pasteDTO->message,
-            'expiration' => $pasteDTO->expiration,
-            'access_key' => $pasteDTO->access_key,
-            'lang' => $pasteDTO->lang,
-            'user_id' => $userId
-        ]);
+        $validateDTO = array_merge($pasteDTO->toArray(), ['user_id' => $user->id ?? null]);
+        return $this->repository->create($validateDTO);
     }
 
     /** @inheritDoc */

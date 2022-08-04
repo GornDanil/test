@@ -3,6 +3,7 @@
 namespace App\Services\Authentication;
 
 use App\Domain\DTO\RegistrationDTO;
+use App\Exceptions\AuthontificationException;
 use App\Exceptions\EmailNotUniqueException;
 use App\Models\User;
 use App\Repositories\Authentication\UserRepositoryInterface;
@@ -42,13 +43,13 @@ class AuthenticationService implements AuthenticationServiceInterface
         $users = $this->repository->findWhere(['email' => $data->email]);
 
         if (count($users) == 0) {
-            throw new EmailNotUniqueException();
+            throw new AuthontificationException();
         }
 
         $user = $users->first();
 
         if (!Hash::check($data->password, $user->password)) {
-            throw new EmailNotUniqueException();
+            throw new AuthontificationException();
         }
 
         return $user;

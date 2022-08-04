@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command("debug", function () {
     /** @var User $user */
     $user = User::query()->find(21);
-    dd($user);
+    dd(\App\Domain\Enums\Pastes\AccessSlug::keys());
 });
 
 Artisan::command('inspire', function () {
