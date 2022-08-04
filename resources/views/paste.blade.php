@@ -69,8 +69,9 @@
             <select name="access_key" class="form-control" id="access">
                 <option value="public">public</option>
                 <option value="unlisted">unlisted</option>
+                @if(Auth::check())
                 <option value="private">private</option>
-
+                @endif
             </select>
         </div>
 
